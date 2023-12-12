@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import weatherInfo from "./weatherInfo";
+import weatherInfo from "./WeatherInfo";
 import WeatherTemperature  from "./WeatherTemperature";
 import WeatherTemperature  from "./WeatherTemperature";
 import WeatherForecast from "WeatherForecast";
-import weatherInfo from "./weatherInfo";
+import weatherInfo from "./WeatherInfo";
 import axios from "axios";
 import "./Weather.css";
 
@@ -21,7 +21,7 @@ function handleResponse(response){
         wind: response.data.wind.speed,
         humidity: response.data.main.humidity,
         icon: `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
-      };
+      });
     setLoaded(true);
 }
 

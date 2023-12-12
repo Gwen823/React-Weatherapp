@@ -1,24 +1,69 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
+import React, { useState } from "react";
+import WeatherForecast from "./WeatherForecast";
+import WeatherInfo from "./WeatherInfo";
+import axios from "axios";
+import "./Weather.css";
 
-import "./index.css";
-import WeatherReact from "./weatherReact";
+export default function WeatherReact(props) {
+  const [city, setCity] = useState(props.defaultCity);
+  const [weatherData, setWeather] = useState({ ready: false });
 
-const rootElement = document.getElementById("root");
-const root = createRoot(rootElement);
+  function handleResponse(response) {
+    setWeather({
+      ready: true,
+      city: response.data.main,
+      coord: response.data.coord,
+      date: new Date(response.data.dt * 100),
+      temperature: response.data.main.temp,
+      description: response.data.weather[0].description,
+      wind: response.data.wind.speed,
+      humidity: response.data.main.humidity,
+      icon: `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
+    });
+  }
 
-root.render(
-  <StrictMode>
-    <div className="App">
-      <div className="container">
-      <h1>React Weather App</h1>
-      <WeatherReact defaultCity="New York" />
-    
-    <div>
-      <ul></ul>
-    </div>
-    <footer>coded by Johana Abreu <a href="https://github.com/Gwen823/Weather-react.git" target="_blank" rel="noopener noreferrer">open source Github</a></footer>
-    </div>
-    </div>
-  </StrictMode>
-);
+  function search() {
+    const apiKey = "bb0df6985c2eab6a171d64a6bacbb4e1";
+    let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+    axios.get(apiUrl).then(handleResponse);
+  }
+  function handleSubmit(event) {
+    event.preventDefault();
+  }
+
+  function handleCityChange(event) {
+    setCity(event.target.value);
+    search(city);
+  }
+  if (weatherData.ready) {
+    return (
+      <div className="Weather">
+        <form onSubmit={handleSubmit}>
+          <div className="row">
+            <div className="col-9">
+              <input
+                type="search"
+                placeholder="Enter a city"
+                className="form-contol"
+                autoFocus="on"
+                onChange={handleCityChange}
+              />
+            </div>
+            <div className="col-3">
+              <input
+                type="submit"
+                value="search"
+                className="btn btn-primary w-100"
+              />
+            </div>
+          </div>
+        </form>
+        <WeatherInfo data={weatherData} />
+        <WeatherForecast coord={weatherData.coord} icon={weatherData.icon} />
+      </div>
+    );
+  } else {
+    search();
+    return "loading...";
+  }
+}
