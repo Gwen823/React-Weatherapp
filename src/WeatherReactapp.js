@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import WeatherTemperature from "./WeatherTemperature";
+import WeatherTemperature from "./WeatherTemperature.";
 import WeatherForecast from "WeatherForecast";
 import weatherInfo from "./WeatherInfo";
 import axios from "axios";
@@ -58,8 +58,8 @@ className="btn btn-primary w-100"/>
 </div>
 </div>
 </form>
-<WeatherInfo data={weatherData}/>
-<WeatherForecast coord={weatherData.coord} icon={weatherData.icon}/>
+<WeatherInfo data={WeatherData}/>
+<WeatherForecast coord={WeatherData.coord} icon={WeatherData.icon}/>
 </div>
     );
 
