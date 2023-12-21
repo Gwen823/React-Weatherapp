@@ -25,7 +25,7 @@ export default function WeatherForecast(props){
     <div className="row">
         {forecast.map(function(daylyForecast,index){
             if (index>5){ return(<div className="col" >
-            <WeatherForecastDay data={forecast [0]}/>
+            <WeatherForecastDay data={forecast[0]}/>
          </div>);
          }
          else{
@@ -40,9 +40,9 @@ export default function WeatherForecast(props){
  }
  else {   
     let apiKey="bb0df6985c2eab6a171d64a6bacbb4e1";
-    let apiUrl= `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${lat}&lon=${lon}&cnt={cnt}&appid=${apiKey}&units=metric`;
     let lon= props.coord.lon;
     let lat= props.coord.lat;
+    let apiUrl= `https://api.openweathermap.org/data/2.5/forecast/daily?lat=${lat}&lon=${lon}&cnt={cnt}&appid=${apiKey}&units=metric`;
 
     axios.get(apiUrl).then(handleResponse);
 
